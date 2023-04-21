@@ -96,7 +96,7 @@ def set_seed(seed):
 
 set_seed(seed_number)  # Replace 42 with your desired seed value
 
-# Create a simple neural network model
+# Create a simple neural network model binary classification
 def create_model(input_shape):
     model = tf.keras.Sequential([
         layers.InputLayer(input_shape=input_shape),
@@ -125,7 +125,35 @@ def create_model(input_shape):
 
     return model
 
+# Create a simple neural network model for 10 output neurons
+def create_multi_model(input_shape):
+    model = tf.keras.Sequential([
+        layers.InputLayer(input_shape=input_shape),
+        layers.Conv2D(32, (3, 3), activation='relu'),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Conv2D(64, (3, 3), activation='relu'),
+        layers.Dropout(0.3),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Conv2D(128, (3, 3), activation='relu'),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Dropout(0.3),
+        layers.Conv2D(256, (3, 3), activation='relu'),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Conv2D(512, (3, 3), activation='relu'),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Dropout(0.3),
+        layers.Flatten(),
+        layers.Dense(16, activation='relu'),
+        layers.Dropout(0.1),
+        layers.Dense(10, activation='softmax')  # Changed the output units to 10 and activation to 'softmax'
+    ])
 
+
+    model.compile(optimizer=tf.keras.optimizers.Adam(lr=set_lr),
+                  loss='categorical_crossentropy',
+                  metrics=['accuracy'])
+
+    return model
 
 model = create_model(input_shape)
 
